@@ -1,44 +1,29 @@
-import express from "express";
-import config from "./config";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import userRoute from "./routes/userRoute";
-import productRoute from "./routes/productRoute";
+const app = require('./app');
+const path = require('path');
+const connectDatabase = require('./config/database');
 
-const path = require("path");
 
-dotenv.config();
+connectDatabase();
 
-const PORT = process.env.PORT || 5000;
-const mongodbUrl = config.MONGODB_URL;
+const server = app.listen(process.env.PORT,()=>{
+    console.log(`My Server listening to the port: ${process.env.PORT} in  ${process.env.NODE_ENV} `)
+})
 
-mongoose
-    .connect(mongodbUrl, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
+process.on('unhandledRejection',(err)=>{
+    console.log(`Error: ${err.message}`);
+    console.log('Shutting down the server due to unhandled rejection error');
+    server.close(()=>{
+        process.exit(1);
     })
-    .catch(error => console.log(error.reason));
+})
 
-const app = express();
+process.on('uncaughtException',(err)=>{
+    console.log(`Error: ${err.message}`);
+    console.log('Shutting down the server due to uncaught exception error');
+    server.close(()=>{
+        process.exit(1);
+    })
+})
 
-app.use(bodyParser.json());
-app.use("/api/users", userRoute);
-app.use("/api/products", productRoute);
 
-// Serve static assests if in production
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
-
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-    });
-}
-
-app.listen(PORT, () =>
-    console.log(
-        "************************************************** \n The Server has started at : http://localhost:5000"
-    )
-);

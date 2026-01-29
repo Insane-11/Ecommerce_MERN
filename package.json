@@ -1,39 +1,31 @@
 {
-  "name": "backend",
+  "name": "jvlcart",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "engines": {
-    "node": "12.x",
-    "npm": "6.x"
-  },
+  "description": "ecommerce using MERN stack",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon --watch backend --exec babel-node backend/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install cd client && npm run build cd client"
+    "start": "nodemon backend/server.js",
+    "dev": "set NODE_ENV=development&&nodemon backend/server.js",
+    "prod": "set NODE_ENV=production&&nodemon backend/server.js",
+    "seeder": "node backend/utils/seeder.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/suhassalian27/E-Commerce-Website-using-ReactJS-NodeJS.git"
-  },
-  "author": "Suhas Salian",
+  "author": "JV Logesh",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/suhassalian27/E-Commerce-Website-using-ReactJS-NodeJS/issues"
-  },
-  "homepage": "https://github.com/suhassalian27/E-Commerce-Website-using-ReactJS-NodeJS#readme",
   "dependencies": {
-    "@babel/cli": "^7.10.4",
-    "@babel/core": "^7.10.4",
-    "@babel/node": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^4.5.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "@reduxjs/toolkit": "^1.9.1",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.5.9",
-    "mongoose": "^5.9.22",
-    "nodemon": "^2.0.4",
-    "react-bootstrap": "^1.2.2"
+    "mongoose": "^6.8.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "stripe": "^11.9.1",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
